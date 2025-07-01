@@ -61,6 +61,9 @@ class Seller_API extends Main_API
 		$return_msg = '';
 		if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === 0) {
 	        $upload_dir = dirname(__DIR__) . '/uploads/';
+	        if (!is_dir($upload_dir)) {
+	            mkdir($upload_dir, 0755, true);
+	        }
 	        $fileTmpPath = $_FILES['product_image']['tmp_name'];
 	        $fileName = $_FILES['product_image']['name'];
 	        $fileExt = pathinfo($fileName, PATHINFO_EXTENSION);
