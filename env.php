@@ -7,4 +7,5 @@ $env_mysql_db_host = 'sql12.freesqldatabase.com';
 $env_mysql_db_user = 'sql12787303';
 $env_mysql_db_pass = 'XbCik6ibce';
 $env_mysql_db_name = 'sql12787303';
+$env_server_url = 'https://trendmart-api.onrender.com';
 ?>

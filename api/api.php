@@ -1,6 +1,6 @@
 <?php
 $allowed_origin = 'https://trendmart-store.netlify.app';
-header("Access-Control-Allow-Origin: $allowed_origin");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
@@ -31,6 +31,12 @@ class Main_API
 			include 'login_api.php';
 			$login_api = new Login_API();
 			return $login_api->$api_name();
+		}
+		$seller_api = ['get_category_details','add_product','get_product_details','delete_product'];
+		if(in_array($api_name, $seller_api)){
+			include 'seller_api.php';
+			$seller_api = new Seller_API();
+			return $seller_api->$api_name();
 		}
 	}
 }

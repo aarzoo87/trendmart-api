@@ -33,6 +33,11 @@ class Database {
         return $this->conn->prepare($sql);
     }
 
+    public function query_get_id($query) {
+        $this->conn->query($query);
+        return $this->conn->insert_id;
+    }
+
     public function row($sql) {
         $result = $this->query($sql);
         if ($result && $result->num_rows > 0) {
