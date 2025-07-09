@@ -32,9 +32,9 @@ class Main_API
 			$login_api = new Login_API();
 			return $login_api->$api_name();
 		}
-		$seller_api = ['get_category_details','add_product','get_product_details','delete_product'];
+		$seller_api = ['get_category_details','add_product','get_product_details','delete_product','get_single_product_detail','add_to_cart','get_cart_product_details'];
 		if(in_array($api_name, $seller_api)){
-			include 'seller_api.php';
+			include 'seller_customer_api.php';
 			$seller_api = new Seller_API();
 			return $seller_api->$api_name();
 		}

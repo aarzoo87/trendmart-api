@@ -16,22 +16,24 @@ class Login_API extends Main_API
 		$login_pass = $this->glob['password'];
 		$return_data = array();
 		$return_status = 0;
-		$return_msg = "";
+		$return_msg = $return_value = "";
 		$login_email_count = $this->db_conn->field("SELECT count(*) FROM users WHERE email = '".$login_email."' AND role = '".$login_role."'");
 		if($login_email_count == 0){
 			$return_msg = "Invalid email or role. Please check and try again.";
 		}
 		if($login_email_count > 0){
-			$hash_password = $this->db_conn->field("SELECT password FROM users WHERE email = '".$login_email."' AND role = '".$login_role."'");
-			if(password_verify($login_pass, $hash_password)){
+			$hash_password = $this->db_conn->row("SELECT id,password FROM users WHERE email = '".$login_email."' AND role = '".$login_role."'");
+			if(password_verify($login_pass, $hash_password['password'])){
 				$return_status = 1;
 				$return_msg = "Welcome! You have logged in successfully.";
+				$return_value = encrypt_decrypt($hash_password['id'], 'e');
 			}else{
 				$return_msg = "The password you entered is incorrect.";
 			}
 		}
 		$return_data['status'] = $return_status;
 		$return_data['message'] = $return_msg;
+		$return_data['data'] = $return_value;
 		return $return_data;
 	}
 	public function register_user()
