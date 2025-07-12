@@ -20,18 +20,8 @@ class Main_API
 	
 	function __construct()
 	{
-		global $env_mysql_db_host, $env_mysql_db_user, $env_mysql_db_pass, $env_mysql_db_name;
-		$conn_string = "host=dpg-d1mti0nfte5s73d3odi0-a port=5432 dbname=trendmart_db user=trendmart password=sGkNsNDm7ZewUYvaFttkgaxVPwsOXXGn sslmode=require";
-
-		$dbconn = pg_connect($conn_string);
-		
-		if (!$dbconn) {
-		    echo "Connection failed.";
-		} else {
-		    echo "Connected successfully with pg_connect!";
-		}
-		exit;
-		$this->db_conn = new Database($env_mysql_db_host, $env_mysql_db_user, $env_mysql_db_pass, $env_mysql_db_name);
+		global $env_pgsql_db_host, $env_pgsql_db_user, $env_pgsql_db_pass, $env_pgsql_db_name;
+		$this->db_conn = new Database($env_pgsql_db_host, $env_pgsql_db_user, $env_pgsql_db_pass, $env_pgsql_db_name);
 		$this->glob = $_POST;
 	}
 	public function api_function($api_name)
