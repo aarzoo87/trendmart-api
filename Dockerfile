@@ -1,9 +1,11 @@
 # Use an official PHP image with Apache
 FROM php:8.1-apache
 
-# Enable mod_rewrite and extensions
+# Enable mod_rewrite and required PHP extensions
 RUN a2enmod rewrite \
-    && docker-php-ext-install mysqli
+    && apt-get update \
+    && apt-get install -y libpq-dev \
+    && docker-php-ext-install mysqli pdo_pgsql
 
 # Copy project files into the container
 COPY . /var/www/html/
