@@ -50,16 +50,16 @@ class Login_API extends Main_API
 			$return_msg = "User with this mobile no is already exists.";
 		}
 		if($email_users_count == 0 && $phone_users_count == 0){
-			$mysqli = $this->db_conn->conn;
+			$pg_sqli = $this->db_conn->conn;
 			$gender = $this->glob['gender'] == '1' ? 'Male' : ($this->glob['gender'] == '2' ? 'Female' : 'Other');
-			$first_name = mysqli_real_escape_string($mysqli, $this->glob['first_name']);
-			$last_name  = mysqli_real_escape_string($mysqli, $this->glob['last_name']);
-			$email      = mysqli_real_escape_string($mysqli, $this->glob['email']);
-			$password   = mysqli_real_escape_string($mysqli, $this->glob['password']);
-			$role       = mysqli_real_escape_string($mysqli, $this->glob['role']);
-			$phone      = mysqli_real_escape_string($mysqli, $this->glob['mobile']);
-			$dob        = mysqli_real_escape_string($mysqli, $this->glob['dob']);
-			$_gender     = mysqli_real_escape_string($mysqli, $gender);
+			$first_name = pg_escape_string($pg_sqli, $this->glob['first_name']);
+			$last_name  = pg_escape_string($pg_sqli, $this->glob['last_name']);
+			$email      = pg_escape_string($pg_sqli, $this->glob['email']);
+			$password   = pg_escape_string($pg_sqli, $this->glob['password']);
+			$role       = pg_escape_string($pg_sqli, $this->glob['role']);
+			$phone      = pg_escape_string($pg_sqli, $this->glob['mobile']);
+			$dob        = pg_escape_string($pg_sqli, $this->glob['dob']);
+			$_gender     = pg_escape_string($pg_sqli, $gender);
 			$_password = password_hash($password, PASSWORD_DEFAULT);
 			$qry = "INSERT INTO users (first_name, last_name, email, password, role, phone, dob, gender) VALUES ('$first_name', '$last_name', '$email', '$_password', '$role', '$phone', '$dob', '$_gender')";
 			$new_added_user = $this->db_conn->query($qry);

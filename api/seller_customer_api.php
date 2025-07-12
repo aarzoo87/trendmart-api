@@ -15,7 +15,7 @@ class Seller_API extends Main_API
 		$category_data = $formatted_category_data = [];
 		$parent_categories = $this->db_conn->query("SELECT id, name FROM category WHERE parent_id = 0");
 
-		while ($parent = $parent_categories->fetch_assoc()) {
+		while ($parent = pg_fetch_assoc($parent_categories)) {
 		    $category_id = $parent['id'];
 		    $category_data[$category_id] = [
 		        'name' => $parent['name'],
@@ -23,7 +23,7 @@ class Seller_API extends Main_API
 		    ];
 
 		    $sub_category_details = $this->db_conn->query("SELECT id, name FROM category WHERE parent_id = " . $category_id);
-		    while ($row = $sub_category_details->fetch_assoc()) {
+		    while ($row = pg_fetch_assoc($sub_category_details)) {
 		        $category_data[$category_id]['subcategories'][$row['id']] = $row['name'];
 		    }
 		}
@@ -46,10 +46,10 @@ class Seller_API extends Main_API
 	}
 	public function add_product()
 	{
-		$mysqli = $this->db_conn->conn;
-		$product_name = mysqli_real_escape_string($mysqli, $this->glob['product_name']);
-		$product_brand = mysqli_real_escape_string($mysqli, $this->glob['product_brand']);
-		$descriotion = mysqli_real_escape_string($mysqli, $this->glob['product_desc']);
+		$pg_sqli = $this->db_conn->conn;
+		$product_name = pg_escape_string($pg_sqli, $this->glob['product_name']);
+		$product_brand = pg_escape_string($pg_sqli, $this->glob['product_brand']);
+		$descriotion = pg_escape_string($pg_sqli, $this->glob['product_desc']);
 		$product_category = $this->glob['product_category'];
 		$product_price = $this->glob['product_price'];
 		$dis_price = $this->glob['product_discount_price'];
@@ -107,7 +107,7 @@ class Seller_API extends Main_API
 		$product_data = array();
 		$qry = "SELECT product.*, category.name as category_name FROM product LEFT JOIN category on (product.category_id = category.id)";
 		$products_list = $this->db_conn->query($qry);
-		while ($row = $products_list->fetch_assoc()) {
+		while ($row = pg_fetch_assoc($products_list)) {
 			$product_data[] = array(
 				'id'     => encrypt_decrypt($row['id'],'e'),
 				'product_name'     => $row['product_name'],
@@ -197,7 +197,7 @@ class Seller_API extends Main_API
 		global $env_server_url;
 		$customer_user_id = isset($this->glob['customer_id']) ? encrypt_decrypt($this->glob['customer_id'], 'd') : 0;
 		$product_details = $this->db_conn->query("SELECT product.product_name,product.brand_name,product.product_price,product.discount_price,product.product_stock,product.description,product.product_image,cart.product_id,cart.qty,cart.size,cart.color,category.name as category_name FROM cart LEFT JOIN product ON (cart.product_id = product.id) LEFT JOIN category ON (product.category_id = category.id) WHERE cart.customer_id = ".$customer_user_id."");
-		while ($row = $product_details->fetch_assoc()) {
+		while ($row = pg_fetch_assoc($product_details)) {
 			$product_data[] = array(
 				'id'     => encrypt_decrypt($row['product_id'],'e'),
 				'product_name'     => $row['product_name'],
