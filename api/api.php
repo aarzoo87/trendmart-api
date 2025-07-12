@@ -21,11 +21,12 @@ class Main_API
 	function __construct()
 	{
 		global $env_mysql_db_host, $env_mysql_db_user, $env_mysql_db_pass, $env_mysql_db_name;
+		$dsn = "pgsql:host=dpg-d1mti0nfte5s73d3odi0-a;port=5432;dbname=trendmart_db;sslmode=require";
+
 		try {
-		    $dsn = "pgsql:host=db.hlxpmuuhswynspjuihos.supabase.co;port=5432;dbname=postgres";
-		    $pdo = new PDO($dsn, 'postgres', 'trendmart-db');
+		    $pdo = new PDO($dsn, 'trendmart', 'sGkNsNDm7ZewUYvaFttkgaxVPwsOXXGn');
 		    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		    echo "Connected successfully!";
+		    echo "Connected to Render PostgreSQL successfully!";
 		} catch (PDOException $e) {
 		    echo "Connection failed: " . $e->getMessage();
 		}
