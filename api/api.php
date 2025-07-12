@@ -21,6 +21,15 @@ class Main_API
 	function __construct()
 	{
 		global $env_mysql_db_host, $env_mysql_db_user, $env_mysql_db_pass, $env_mysql_db_name;
+		try {
+		    $dsn = "pgsql:host=db.hlxpmuuhswynspjuihos.supabase.co;port=5432;dbname=postgres";
+		    $pdo = new PDO($dsn, 'postgres', 'trendmart-db');
+		    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		    echo "Connected successfully!";
+		} catch (PDOException $e) {
+		    echo "Connection failed: " . $e->getMessage();
+		}
+		exit;
 		$this->db_conn = new Database($env_mysql_db_host, $env_mysql_db_user, $env_mysql_db_pass, $env_mysql_db_name);
 		$this->glob = $_POST;
 	}
