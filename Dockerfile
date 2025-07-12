@@ -5,7 +5,7 @@ FROM php:8.1-apache
 RUN a2enmod rewrite \
     && apt-get update \
     && apt-get install -y libpq-dev \
-    && docker-php-ext-install mysqli pdo_pgsql
+    && docker-php-ext-install pgsql pdo_pgsql mysqli
 
 # Copy project files into the container
 COPY . /var/www/html/
